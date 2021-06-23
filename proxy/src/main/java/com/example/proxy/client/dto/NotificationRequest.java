@@ -16,4 +16,5 @@ public class NotificationRequest extends RepresentationModel<NotificationRequest
     private final String to;
     private final String subject;
     private final String message;
+    private final String origin;
 }

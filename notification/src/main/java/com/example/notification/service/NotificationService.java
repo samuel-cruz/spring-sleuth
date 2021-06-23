@@ -13,7 +13,7 @@ import java.util.*;
 public class NotificationService {
     private final Map<String, Notification> notifications = new HashMap<>();
 
-    public String add(final NotificationRequest notificationRequest) {
+    public String add(final NotificationRequest notificationRequest, final String origin) {
         final String id = UUID.randomUUID().toString().replace("-", "");
 
         notifications.put(id,
@@ -22,6 +22,7 @@ public class NotificationService {
                 .to(notificationRequest.getTo())
                 .subject(notificationRequest.getSubject())
                 .message(notificationRequest.getMessage())
+                .origin(origin)
                 .build()
         );
         return id;
@@ -33,12 +34,7 @@ public class NotificationService {
             return Optional.empty();
         }
 
-        return Optional.of(NotificationRequest.builder()
-            .id(notification.getId())
-            .to(notification.getTo())
-            .subject(notification.getSubject())
-            .message(notification.getMessage())
-            .build());
+        return Optional.of(toNotificationRequest(notification));
     }
 
     public List<NotificationRequest> getAll() {
@@ -46,17 +42,18 @@ public class NotificationService {
 
         notifications.values()
             .stream()
-            .forEach(notification ->
-                notificationList.add(
-                    NotificationRequest.builder()
-                        .id(notification.getId())
-                        .to(notification.getTo())
-                        .subject(notification.getSubject())
-                        .message(notification.getMessage())
-                        .build()
-                )
-            );
+            .forEach(notification -> notificationList.add(toNotificationRequest(notification)));
 
         return notificationList;
+    }
+
+    private NotificationRequest toNotificationRequest(final Notification notification) {
+        return NotificationRequest.builder()
+            .id(notification.getId())
+            .to(notification.getTo())
+            .subject(notification.getSubject())
+            .message(notification.getMessage())
+            .origin(notification.getOrigin())
+            .build();
     }
 }

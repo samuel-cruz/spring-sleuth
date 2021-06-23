@@ -13,4 +13,5 @@ public class Notification {
     private final String to;
     private final String subject;
     private final String message;
+    private final String origin;
 }

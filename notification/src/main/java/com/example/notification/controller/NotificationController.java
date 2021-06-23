@@ -26,10 +26,11 @@ public class NotificationController {
     private Tracer tracer;
 
     @PostMapping
-    public ResponseEntity<String> sendNotifications(@RequestBody final NotificationRequest notificationRequest) {
-        final String id = notificationService.add(notificationRequest);
+    public ResponseEntity<String> createNotifications(@RequestBody final NotificationRequest notificationRequest) {
+        final String origin = tracer.currentSpan().context().traceId();
+        final String id = notificationService.add(notificationRequest, origin);
 
-        log.info("Notification created - id {} - trace {}", id, tracer.currentSpan().context().traceId());
+        log.info("Notification created - id {} - trace {}", id, origin);
         return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
@@ -49,7 +50,7 @@ public class NotificationController {
         final List<NotificationRequest> notifications = notificationService.getAll();
         if (notifications.isEmpty()) {
             log.info("Notifications not found");
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.ok(notifications);
