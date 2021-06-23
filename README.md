@@ -12,6 +12,8 @@
 # About
 Study about [Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth) and [Zipkin](https://zipkin.io/pages/quickstart.html)
 
+- No data will be persisted in a database, only in memory.
+
 # Building
 - You need clone this repository `$ git clone git@github.com:samuel-cruz/spring-sleuth.git`
 - Run zipkin from a docker `$ docker run -itd --name trace -p 9411:9411 openzipkin/zipkin`
