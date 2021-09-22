@@ -1,0 +1,15 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: notification
+  boot:
+    admin:
+      notify:
+        mail:
+          to: your@email.com
+  mail:
+    host: mail.domain.com
+    port: 587
+    password: password
+    username: username@domain.com

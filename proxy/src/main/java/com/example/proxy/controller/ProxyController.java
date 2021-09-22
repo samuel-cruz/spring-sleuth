@@ -30,7 +30,8 @@ public class ProxyController {
 
     @PostMapping("/do/notifications")
     public ResponseEntity<?> createNotification() {
-        log.info("Calling the service to create a new notification...");
+
+        log.error("Calling the service to create a new notification...");
         final ResponseEntity<String> response = notificationClient.sendNotifications(proxyService.createNotification());
 
         if (response.getStatusCode().is2xxSuccessful()) {
@@ -57,7 +58,7 @@ public class ProxyController {
             }
             return response;
         } catch (final FeignException.FeignClientException e) {
-            log.info("Not found notification with id {} - Error: {}!", id, e.getCause());
+            log.error("Not found notification with id {} - Error: {}!", id, e.getCause());
             return ResponseEntity.status(e.status()).build();
         }
     }
@@ -79,7 +80,7 @@ public class ProxyController {
 
             return response;
         } catch (final FeignException.FeignClientException e) {
-            log.info("Notifications not found by the service! Error: {}", e.getCause());
+            log.error("Notifications not found by the service! Error: {}", e.getCause());
             return ResponseEntity.status(e.status()).build();
         }
     }

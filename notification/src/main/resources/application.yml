@@ -3,6 +3,12 @@ server:
 spring:
   application:
     name: notification
+  boot:
+    admin:
+      client:
+        instance:
+          prefer-ip: true
+        url: http://127.0.0.1:8086/
   zipkin:
     storage:
       type: mysql
@@ -10,3 +16,14 @@ spring:
   sleuth:
     sampler:
     probability: 1.0
+  pattern:
+    console: "%d{ISO8601} traceId:%X{traceId} spanId:%X{spanId} %-5level %logger{0}.%M:%L - %msg %n"
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
